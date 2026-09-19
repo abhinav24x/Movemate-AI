@@ -18,7 +18,7 @@ export const LocationSchema = z.union([
     area: s || null,
     city: null,
   })),
-]).pipe(LocationObjectSchema);
+]);
 
 export type Location = z.infer<typeof LocationObjectSchema>;
 
