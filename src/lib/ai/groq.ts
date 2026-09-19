@@ -44,7 +44,26 @@ function extractJSON(raw: string): unknown {
 }
 
 // ---------------------------------------------------------------------------
-// Main LLM call
+// Single model attempt
+// ---------------------------------------------------------------------------
+async function attemptGroqCall(
+  client: Groq,
+  model: string,
+  messages: Array<{ role: "system" | "user" | "assistant"; content: string }>,
+  useJsonMode: boolean,
+): Promise<string> {
+  const completion = await client.chat.completions.create({
+    model,
+    messages,
+    max_tokens: AI_CONFIG.groq.maxTokens,
+    temperature: AI_CONFIG.groq.temperature,
+    ...(useJsonMode ? { response_format: { type: "json_object" } } : {}),
+  });
+  return completion.choices[0]?.message?.content ?? "";
+}
+
+// ---------------------------------------------------------------------------
+// Main LLM call — with model fallback
 // ---------------------------------------------------------------------------
 export async function callGroqAgent(
   userMessage: string,
@@ -56,42 +75,50 @@ export async function callGroqAgent(
   const systemPrompt = buildSystemPrompt(currentRequirements, currentDateTime);
   const messages = buildChatMessages(systemPrompt, conversationHistory, userMessage);
 
-  let rawResponse: string;
+  const modelsToTry = [
+    { model: AI_CONFIG.groq.model, jsonMode: true },
+    { model: AI_CONFIG.groq.model, jsonMode: false },        // same model, no JSON mode
+    { model: AI_CONFIG.groq.fallbackModel, jsonMode: true },  // fallback model
+    { model: AI_CONFIG.groq.fallbackModel, jsonMode: false }, // fallback, no JSON mode
+  ];
 
-  try {
-    const completion = await client.chat.completions.create({
-      model: AI_CONFIG.groq.model,
-      messages,
-      max_tokens: AI_CONFIG.groq.maxTokens,
-      temperature: AI_CONFIG.groq.temperature,
-      response_format: { type: "json_object" }, // Groq JSON mode
-    });
+  let lastError: Error | null = null;
 
-    rawResponse = completion.choices[0]?.message?.content ?? "";
-    if (!rawResponse) {
-      throw new Error("Empty response from Groq");
+  for (const { model, jsonMode } of modelsToTry) {
+    try {
+      const rawResponse = await attemptGroqCall(client, model, messages, jsonMode);
+
+      if (!rawResponse) {
+        lastError = new Error(`Empty response from model ${model}`);
+        continue;
+      }
+
+      // Parse + validate
+      let parsed: unknown;
+      try {
+        parsed = extractJSON(rawResponse);
+      } catch {
+        lastError = new Error(`Model ${model} did not return valid JSON`);
+        continue;
+      }
+
+      const validated = AgentLLMResponseSchema.safeParse(parsed);
+      if (!validated.success) {
+        console.warn(`Model ${model} response failed schema validation:`, validated.error.flatten());
+        lastError = new Error(`Model ${model} response did not match expected schema`);
+        continue;
+      }
+
+      // Success — log which model/mode worked
+      console.log(`[Groq] Success with model=${model}, jsonMode=${jsonMode}`);
+      return validated.data;
+
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      console.warn(`[Groq] Model ${model} (jsonMode=${jsonMode}) failed: ${message}`);
+      lastError = new Error(`Groq API call failed: ${message}`);
     }
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Unknown Groq error";
-    throw new Error(`Groq API call failed: ${message}`);
   }
 
-  // Parse + validate
-  let parsed: unknown;
-  try {
-    parsed = extractJSON(rawResponse);
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Parse error";
-    throw new Error(`Failed to parse Groq response as JSON: ${message}`);
-  }
-
-  const validated = AgentLLMResponseSchema.safeParse(parsed);
-  if (!validated.success) {
-    console.error("Groq response validation failed:", validated.error.flatten());
-    throw new Error(
-      `Groq response did not match expected schema: ${JSON.stringify(validated.error.flatten())}`,
-    );
-  }
-
-  return validated.data;
+  throw lastError ?? new Error("All Groq model attempts failed");
 }

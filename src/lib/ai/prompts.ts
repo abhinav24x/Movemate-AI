@@ -39,18 +39,62 @@ READINESS:
 - After confirmation (user says "yes/confirm/that's correct"), set status to "confirmed"
 - If the user wants to change something after the summary, apply the correction and show the updated summary
 
-RESPONSE FORMAT:
+IMPORTANT — EXACT JSON STRUCTURE REQUIRED:
 You MUST respond with valid JSON only — no markdown, no prose outside the JSON.
-The JSON must exactly match this schema:
+
+The pickup and drop fields MUST be objects with this exact structure (never plain strings):
 {
-  "assistant_message": "<what you say to the user>",
-  "updated_requirements": { <complete requirements object> },
-  "missing_requirements": ["<field name>", ...],
-  "status": "collecting" | "ready_for_confirmation" | "confirmed",
-  "needs_clarification": true | false,
-  "clarification_reason": "<reason or null>",
-  "correction_detected": true | false,
-  "corrected_fields": ["<field name>", ...]
+  "address": null or "full street address if known",
+  "landmark": null or "landmark if mentioned",
+  "area": "neighbourhood/area name" or null,
+  "city": "city name" or null
+}
+
+The items field MUST be an array of objects like:
+[{"name": "sofa", "quantity": 1, "notes": null}]
+
+vehicle_type must be one of: "mini_truck", "tempo", "large_truck", "bike", "suitable", or null.
+
+The full response JSON schema:
+{
+  "assistant_message": "<what you say to the user — natural spoken language>",
+  "updated_requirements": {
+    "pickup": {"address": null, "landmark": null, "area": "area name or null", "city": "city or null"},
+    "drop": {"address": null, "landmark": null, "area": "area name or null", "city": "city or null"},
+    "items": [{"name": "item name", "quantity": 1, "notes": null}],
+    "vehicle_type": null,
+    "date": "date string or null",
+    "time": "time string or null",
+    "special_requirements": null,
+    "additional_notes": null
+  },
+  "missing_requirements": ["list of still-missing field names"],
+  "status": "collecting" or "ready_for_confirmation" or "confirmed",
+  "needs_clarification": false,
+  "clarification_reason": null,
+  "correction_detected": false,
+  "corrected_fields": []
+}
+
+EXAMPLE — if user says "move from Koramangala to Whitefield tomorrow at 6 PM":
+{
+  "assistant_message": "Got it! I have Koramangala as your pickup and Whitefield as your drop, for tomorrow at 6 PM. What items are you moving?",
+  "updated_requirements": {
+    "pickup": {"address": null, "landmark": null, "area": "Koramangala", "city": null},
+    "drop": {"address": null, "landmark": null, "area": "Whitefield", "city": null},
+    "items": [],
+    "vehicle_type": null,
+    "date": "tomorrow",
+    "time": "18:00",
+    "special_requirements": null,
+    "additional_notes": null
+  },
+  "missing_requirements": ["items"],
+  "status": "collecting",
+  "needs_clarification": false,
+  "clarification_reason": null,
+  "correction_detected": false,
+  "corrected_fields": []
 }`;
 
 /** Build the full system prompt with dynamic context injected */
@@ -68,7 +112,7 @@ ${currentDateTime}
 CURRENT BOOKING STATE (what you already know — do NOT ask for these again):
 ${requirementsJson}
 
-Remember: You must return ONLY valid JSON matching the schema above. No other text.`;
+Remember: Return ONLY valid JSON. pickup and drop must always be objects {address,landmark,area,city}, never plain strings.`;
 }
 
 /** Build the messages array to send to the Groq chat API */

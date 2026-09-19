@@ -1,15 +1,27 @@
 import { z } from "zod";
 
-// ---------------------------------------------------------------------------
-// Location sub-schema
-// ---------------------------------------------------------------------------
-export const LocationSchema = z.object({
+/** Accept both a plain string (coerced to area) and a proper object */
+const LocationObjectSchema = z.object({
   address: z.string().nullable().default(null),
   landmark: z.string().nullable().default(null),
   area: z.string().nullable().default(null),
   city: z.string().nullable().default(null),
 });
-export type Location = z.infer<typeof LocationSchema>;
+
+export const LocationSchema = z.union([
+  // A proper location object
+  LocationObjectSchema,
+  // A plain string — treat it as the area name
+  z.string().transform((s) => ({
+    address: null,
+    landmark: null,
+    area: s || null,
+    city: null,
+  })),
+]).pipe(LocationObjectSchema);
+
+export type Location = z.infer<typeof LocationObjectSchema>;
+
 
 // ---------------------------------------------------------------------------
 // Item sub-schema

@@ -6,7 +6,9 @@
 export const AI_CONFIG = {
   groq: {
     /** Primary chat model — change here to switch globally */
-    model: "llama-3.3-70b-versatile",
+    model: "groq/compound",
+    /** Fallback model if primary fails */
+    fallbackModel: "qwen/qwen3.8-27b",
     /** Max tokens for the LLM response */
     maxTokens: 1024,
     /** Temperature: lower = more predictable structured output */
