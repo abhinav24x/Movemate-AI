@@ -4,14 +4,31 @@
   --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Slim scrollbar for transcript panel */
+/* ============================================================
+   BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #080c14;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   SLIM SCROLLBAR
+   ============================================================ */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: rgb(51 65 85 / 0.6) transparent;
+  scrollbar-color: rgba(99, 120, 180, 0.22) transparent;
 }
 
 .scrollbar-thin::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
@@ -19,6 +36,125 @@
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: rgb(51 65 85 / 0.6);
+  background-color: rgba(99, 120, 180, 0.22);
   border-radius: 9999px;
 }
+
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
+
+/* Mic pulse rings — recording state */
+@keyframes mic-ring-1 {
+  0%   { transform: scale(1);    opacity: 0.55; }
+  100% { transform: scale(1.6);  opacity: 0; }
+}
+@keyframes mic-ring-2 {
+  0%   { transform: scale(1);    opacity: 0.35; }
+  100% { transform: scale(1.95); opacity: 0; }
+}
+@keyframes mic-ring-3 {
+  0%   { transform: scale(1);    opacity: 0.18; }
+  100% { transform: scale(2.35); opacity: 0; }
+}
+
+/* Speaking bars */
+@keyframes speak-bar {
+  0%, 100% { transform: scaleY(0.25); }
+  50%       { transform: scaleY(1); }
+}
+
+/* Thinking orbit dot */
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(20px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+}
+
+/* Idle orb float */
+@keyframes float-idle {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+
+/* Gradient shimmer for progress bar */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Message slide up */
+@keyframes message-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Panel fade in */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Glow pulse for mic orb */
+@keyframes glow-pulse-violet {
+  0%, 100% { box-shadow: 0 0 24px rgba(124, 58, 237, 0.35), 0 0 60px rgba(124, 58, 237, 0.1); }
+  50%       { box-shadow: 0 0 44px rgba(124, 58, 237, 0.6),  0 0 90px rgba(124, 58, 237, 0.2); }
+}
+
+@keyframes glow-pulse-red {
+  0%, 100% { box-shadow: 0 0 24px rgba(239, 68, 68, 0.45), 0 0 60px rgba(239, 68, 68, 0.1); }
+  50%       { box-shadow: 0 0 50px rgba(239, 68, 68, 0.7),  0 0 90px rgba(239, 68, 68, 0.25); }
+}
+
+@keyframes glow-pulse-indigo {
+  0%, 100% { box-shadow: 0 0 24px rgba(99, 102, 241, 0.4), 0 0 60px rgba(99, 102, 241, 0.1); }
+  50%       { box-shadow: 0 0 48px rgba(99, 102, 241, 0.65), 0 0 90px rgba(99, 102, 241, 0.2); }
+}
+
+/* ============================================================
+   ANIMATION UTILITY CLASSES
+   ============================================================ */
+.animate-mic-ring-1 {
+  animation: mic-ring-1 1.9s ease-out infinite;
+}
+.animate-mic-ring-2 {
+  animation: mic-ring-2 1.9s ease-out 0.28s infinite;
+}
+.animate-mic-ring-3 {
+  animation: mic-ring-3 1.9s ease-out 0.56s infinite;
+}
+
+.animate-speak-bar   { animation: speak-bar 0.85s ease-in-out infinite; }
+.animate-speak-bar-2 { animation: speak-bar 0.85s ease-in-out 0.14s infinite; }
+.animate-speak-bar-3 { animation: speak-bar 0.85s ease-in-out 0.28s infinite; }
+.animate-speak-bar-4 { animation: speak-bar 0.85s ease-in-out 0.08s infinite; }
+.animate-speak-bar-5 { animation: speak-bar 0.85s ease-in-out 0.42s infinite; }
+
+.animate-orbit       { animation: orbit 2s linear infinite; }
+.animate-float-idle  { animation: float-idle 3.8s ease-in-out infinite; }
+.animate-message-in  { animation: message-in 0.32s ease-out forwards; }
+.animate-fade-in     { animation: fade-in 0.4s ease-out forwards; }
+
+.animate-glow-violet { animation: glow-pulse-violet 2.8s ease-in-out infinite; }
+.animate-glow-red    { animation: glow-pulse-red    2.2s ease-in-out infinite; }
+.animate-glow-indigo { animation: glow-pulse-indigo 2.5s ease-in-out infinite; }
+
+.progress-bar-shimmer {
+  background: linear-gradient(90deg, #7c3aed 0%, #4f46e5 40%, #06b6d4 70%, #7c3aed 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2.8s linear infinite;
+  transition: width 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   REDUCE MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.15ms !important;
+  }
+}
+
