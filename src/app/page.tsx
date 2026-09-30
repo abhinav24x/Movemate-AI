@@ -86,7 +86,7 @@ export default function Home() {
         {/* ════════════════════════════════════════
             HEADER
         ════════════════════════════════════════ */}
-        <header className="flex items-center justify-between mb-10">
+        <header className="flex items-center justify-between neon-header-bar">
           {/* Logo + wordmark */}
           <div className="flex items-center gap-3">
             <div className="relative w-9 h-9 rounded-xl bg-[#00ff88] flex items-center justify-center shadow-lg shadow-[#00ff88]/30">
@@ -100,7 +100,7 @@ export default function Home() {
               <h1 className="text-base font-bold tracking-tight text-white leading-none">
                 MoveMate <span className="text-[#00ff88]">AI</span>
               </h1>
-              <p className="text-[10px] text-[#1a3a1a] tracking-widest uppercase mt-0.5">
+              <p className="text-[10px] text-[#3a7a5a] tracking-widest uppercase mt-0.5">
                 Voice Moving Assistant
               </p>
             </div>
@@ -110,12 +110,12 @@ export default function Home() {
           <div
             className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 border text-xs font-medium transition-all duration-500 ${
               isRecording
-                ? "bg-red-950/50 border-red-500/30 text-red-400"
+                ? "bg-red-950/60 border-red-500/50 text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.2)]"
                 : isSpeaking
-                  ? "bg-[#001a0d] border-[#00ff88]/30 text-[#00ff88]"
+                  ? "bg-[#001a0d] border-[#00ff88]/40 text-[#00ff88] shadow-[0_0_12px_rgba(0,255,136,0.15)]"
                   : isProcessing
-                    ? "bg-[#001a0d] border-[#00cc6a]/25 text-[#00cc6a]"
-                    : "bg-white/[0.03] border-[#00ff88]/[0.08] text-[#1a3a1a]"
+                    ? "bg-[#001a0d] border-[#00cc6a]/35 text-[#00cc6a] shadow-[0_0_10px_rgba(0,204,106,0.12)]"
+                    : "bg-black/40 border-[#00ff88]/15 text-[#4a9a6a]"
             }`}
             role="status"
             aria-live="polite"
@@ -127,7 +127,7 @@ export default function Home() {
                 isRecording ? "bg-red-400" :
                 isSpeaking ? "bg-[#00ff88]" :
                 isProcessing ? "bg-[#00cc6a]" :
-                "bg-[#1a3a1a]"
+                "bg-[#3a7a5a]"
               }`}
             />
             {isRecording ? "Recording" : isSpeaking ? "Speaking" : isProcessing ? "Thinking" : "Ready"}
@@ -140,7 +140,7 @@ export default function Home() {
         <section className="flex flex-col items-center mb-10" aria-label="Voice assistant">
           {/* Dynamic tagline */}
           <p
-            className="text-sm text-[#1a3a1a] mb-6 h-5 transition-all duration-500 text-center"
+            className="text-sm text-[#4a9a6a] mb-6 h-5 transition-all duration-500 text-center"
             aria-live="polite"
           >
             {getHeroText()}
@@ -155,7 +155,7 @@ export default function Home() {
 
           {/* Keyboard hint — only on desktop, only when idle */}
           {!isBusy && !isRecording && (
-            <p className="mt-5 text-[11px] text-[#152a15] text-center hidden sm:block">
+            <p className="mt-5 text-[11px] text-[#3a7a5a] text-center hidden sm:block">
               Press and speak, or type below
             </p>
           )}
@@ -211,8 +211,8 @@ export default function Home() {
             TEXT INPUT (fallback)
         ════════════════════════════════════════ */}
         <div className="mt-auto">
-          <div className="rounded-2xl border border-[#00ff88]/[0.08] bg-[#00ff88]/[0.02] backdrop-blur-xl p-4">
-            <p className="text-[10px] text-[#1a3a1a] mb-3 uppercase tracking-[0.14em] font-semibold flex items-center gap-1.5">
+          <div className="rounded-2xl neon-card bg-[#050505] backdrop-blur-xl p-4">
+            <p className="text-[10px] text-[#3a7a5a] mb-3 uppercase tracking-[0.14em] font-semibold flex items-center gap-1.5">
               <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
               </svg>
@@ -229,14 +229,14 @@ export default function Home() {
                 placeholder="Type a message… (Enter to send)"
                 rows={2}
                 aria-label="Text message input"
-                className="flex-1 bg-[#00ff88]/[0.03] border border-[#00ff88]/[0.08] rounded-xl px-3.5 py-2.5 text-sm text-gray-200 placeholder-[#1a3a1a] focus:outline-none focus:ring-1 focus:ring-[#00ff88]/50 focus:border-[#00ff88]/30 resize-none disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
+                className="neon-input flex-1 bg-black/60 rounded-xl px-3.5 py-2.5 text-sm text-gray-200 placeholder-[#3a7a5a] resize-none disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
               />
               <button
                 id="send-button"
                 onClick={handleTextSubmit}
                 disabled={isBusy || !textInput.trim()}
                 aria-label="Send message"
-                className="px-4 rounded-xl bg-[#00ff88] hover:bg-[#00cc6a] active:bg-[#009a4f] disabled:opacity-30 disabled:cursor-not-allowed text-black font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00ff88] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent flex-shrink-0 shadow-lg shadow-[#00ff88]/20"
+                className="px-4 rounded-xl bg-[#00ff88] hover:bg-[#00cc6a] active:bg-[#009a4f] disabled:opacity-30 disabled:cursor-not-allowed text-black font-bold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00ff88] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent flex-shrink-0 shadow-[0_0_20px_rgba(0,255,136,0.4)] hover:shadow-[0_0_30px_rgba(0,255,136,0.55)]"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -250,7 +250,7 @@ export default function Home() {
             <button
               id="reset-button"
               onClick={reset}
-              className="text-xs text-[#1a3a1a] hover:text-[#00ff88] transition-colors duration-200 flex items-center gap-1.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#00ff88]/50 rounded px-2 py-1"
+              className="text-xs text-[#3a7a5a] hover:text-[#00ff88] transition-colors duration-200 flex items-center gap-1.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#00ff88]/50 rounded px-2 py-1"
               aria-label="Start a new conversation"
             >
               <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

@@ -84,12 +84,12 @@ export function RequirementsPanel({ requirements, status }: RequirementsPanelPro
   const progress = Math.round((filledCount / fields.length) * 100);
 
   return (
-    <div className="rounded-2xl border border-[#00ff88]/[0.08] bg-[#00ff88]/[0.02] backdrop-blur-xl p-5 animate-fade-in">
+    <div className="rounded-2xl neon-card bg-[#050505] backdrop-blur-xl p-5 animate-fade-in">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2.5">
           <div className="w-1 h-4 rounded-full bg-gradient-to-b from-[#00ff88] to-[#00cc6a]" />
-          <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#1a4a1a]">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#4a9a6a]">
             Trip Details
           </h2>
         </div>
@@ -100,7 +100,7 @@ export function RequirementsPanel({ requirements, status }: RequirementsPanelPro
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className="text-xs text-[#1a3a1a] tabular-nums font-mono">
+          <span className="text-xs text-[#4a9a6a] tabular-nums font-mono">
             {filledCount}/{fields.length}
           </span>
         </div>
@@ -127,7 +127,7 @@ export function RequirementsPanel({ requirements, status }: RequirementsPanelPro
             </span>
 
             {/* Label */}
-            <span className="text-[#1a4a1a] font-medium flex-shrink-0 w-12 text-xs uppercase tracking-wider">
+            <span className="text-[#4a9a6a] font-medium flex-shrink-0 w-12 text-xs uppercase tracking-wider">
               {label}
             </span>
 

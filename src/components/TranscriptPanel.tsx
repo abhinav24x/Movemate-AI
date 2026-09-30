@@ -16,10 +16,10 @@ export function TranscriptPanel({ messages }: TranscriptPanelProps) {
 
   if (messages.length === 0) {
     return (
-      <div className="rounded-2xl border border-[#00ff88]/[0.08] bg-[#00ff88]/[0.02] backdrop-blur-xl p-5">
+      <div className="rounded-2xl neon-card bg-[#050505] backdrop-blur-xl p-5">
         <div className="flex items-center gap-2.5 mb-4">
           <div className="w-1 h-4 rounded-full bg-gradient-to-b from-[#00ff88] to-[#00cc6a]" />
-          <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#1a4a1a]">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#4a9a6a]">
             Conversation
           </h2>
         </div>
@@ -29,7 +29,7 @@ export function TranscriptPanel({ messages }: TranscriptPanelProps) {
               <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
             </svg>
           </div>
-          <p className="text-[#1a3a1a] text-sm text-center leading-relaxed">
+          <p className="text-[#4a9a6a] text-sm text-center leading-relaxed">
             Your conversation will appear here
           </p>
         </div>
@@ -38,13 +38,13 @@ export function TranscriptPanel({ messages }: TranscriptPanelProps) {
   }
 
   return (
-    <div className="rounded-2xl border border-[#00ff88]/[0.08] bg-[#00ff88]/[0.02] backdrop-blur-xl p-5 animate-fade-in">
+    <div className="rounded-2xl neon-card bg-[#050505] backdrop-blur-xl p-5 animate-fade-in">
       <div className="flex items-center gap-2.5 mb-4">
         <div className="w-1 h-4 rounded-full bg-gradient-to-b from-[#00ff88] to-[#00cc6a]" />
-        <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#1a4a1a]">
+        <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#4a9a6a]">
           Conversation
         </h2>
-        <span className="ml-auto text-xs text-[#1a3a1a] tabular-nums">{messages.length}</span>
+        <span className="ml-auto text-xs text-[#4a9a6a] tabular-nums">{messages.length}</span>
       </div>
 
       <div className="space-y-4 max-h-72 overflow-y-auto pr-1 scrollbar-thin">

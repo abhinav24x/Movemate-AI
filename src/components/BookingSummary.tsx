@@ -15,10 +15,10 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
 
   return (
     <div
-      className={`rounded-2xl border backdrop-blur-xl p-5 transition-all duration-500 animate-fade-in ${
+      className={`rounded-2xl neon-card backdrop-blur-xl p-5 transition-all duration-500 animate-fade-in ${
         isConfirmed
-          ? "border-[#00ff88]/25 bg-[#001a0d]/60"
-          : "border-[#00ff88]/15 bg-[#001a0d]/30"
+          ? "bg-[#001a0d]/80"
+          : "bg-[#050505]"
       }`}
     >
       {/* Header */}
@@ -46,7 +46,7 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
           >
             {isConfirmed ? "Booking Confirmed" : "Booking Summary"}
           </h2>
-          <p className="text-xs text-slate-600 mt-0.5">
+          <p className="text-xs text-[#4a9a6a] mt-0.5">
             {isConfirmed
               ? "All details have been confirmed"
               : "Please review and confirm"}

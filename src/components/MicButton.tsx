@@ -90,8 +90,8 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
         )}
       </button>
       <div className="flex items-center gap-2 h-5">
-        <span className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isRecording ? "bg-red-400 animate-pulse" : isSpeaking ? "bg-[#00ff88] animate-pulse" : isProcessing ? "bg-[#00ff88]/60 animate-pulse" : "bg-[#1a2a1a]"}`} />
-        <p className={`text-sm font-medium tracking-wide transition-colors duration-300 ${isRecording ? "text-red-400" : isSpeaking ? "text-[#00ff88]" : isProcessing ? "text-[#00cc6a]" : "text-[#2a3a2a]"}`}>
+        <span className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isRecording ? "bg-red-400 animate-pulse" : isSpeaking ? "bg-[#00ff88] animate-pulse" : isProcessing ? "bg-[#00ff88]/60 animate-pulse" : "bg-[#3a7a5a]"}`} />
+        <p className={`text-sm font-medium tracking-wide transition-colors duration-300 ${isRecording ? "text-red-400" : isSpeaking ? "text-[#00ff88]" : isProcessing ? "text-[#00cc6a]" : "text-[#4a9a6a]"}`}>
           {label}
         </p>
       </div>

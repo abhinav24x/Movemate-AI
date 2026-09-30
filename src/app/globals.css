@@ -168,3 +168,44 @@ body {
     transition-duration: 0.15ms !important;
   }
 }
+/* ============================================================
+   NEON CARD / PANEL GLOW UTILITIES
+   ============================================================ */
+
+.neon-card {
+  border: 1px solid rgba(0, 255, 136, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 136, 0.06),
+    0 0 20px rgba(0, 255, 136, 0.07),
+    0 0 60px rgba(0, 255, 136, 0.03),
+    inset 0 0 30px rgba(0, 255, 136, 0.02);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.neon-card:hover {
+  border-color: rgba(0, 255, 136, 0.32);
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 136, 0.12),
+    0 0 30px rgba(0, 255, 136, 0.12),
+    0 0 80px rgba(0, 255, 136, 0.05),
+    inset 0 0 30px rgba(0, 255, 136, 0.03);
+}
+
+.neon-input {
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.neon-input:focus {
+  border-color: rgba(0, 255, 136, 0.5) !important;
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 136, 0.18),
+    0 0 16px rgba(0, 255, 136, 0.14),
+    inset 0 0 12px rgba(0, 255, 136, 0.05);
+  outline: none;
+}
+
+.neon-header-bar {
+  border-bottom: 1px solid rgba(0, 255, 136, 0.12);
+  box-shadow: 0 2px 20px rgba(0, 255, 136, 0.06);
+}
