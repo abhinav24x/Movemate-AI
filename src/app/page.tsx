@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useRef, useCallback } from "react";
 import { MicButton } from "@/components/MicButton";
@@ -70,15 +70,15 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen text-slate-100 selection:bg-violet-500/30 overflow-x-hidden">
+    <div className="min-h-screen text-gray-100 selection:bg-[#00ff88]/20 overflow-x-hidden">
 
       {/* ─── Atmospheric background ─── */}
-      <div className="fixed inset-0 bg-[#080c14]" aria-hidden="true" />
-      <div className="fixed inset-0 bg-gradient-to-br from-[#080c14] via-[#0a1020] to-[#0c0f1e]" aria-hidden="true" />
-      {/* Accent glows — very subtle */}
-      <div className="fixed top-0 right-0 w-[600px] h-[500px] bg-violet-900/8 rounded-full blur-[120px] pointer-events-none" aria-hidden="true" />
-      <div className="fixed bottom-0 left-0 w-[500px] h-[400px] bg-indigo-900/6 rounded-full blur-[100px] pointer-events-none" aria-hidden="true" />
-      <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-violet-800/4 rounded-full blur-[80px] pointer-events-none" aria-hidden="true" />
+      <div className="fixed inset-0 bg-[#050505]" aria-hidden="true" />
+      <div className="fixed inset-0 bg-gradient-to-br from-[#050505] via-[#080808] to-[#020802]" aria-hidden="true" />
+      {/* Neon green accent glows */}
+      <div className="fixed top-0 right-0 w-[600px] h-[500px] bg-[#00ff88]/[0.04] rounded-full blur-[120px] pointer-events-none" aria-hidden="true" />
+      <div className="fixed bottom-0 left-0 w-[500px] h-[400px] bg-[#00ff88]/[0.03] rounded-full blur-[100px] pointer-events-none" aria-hidden="true" />
+      <div className="fixed top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-[#00ff88]/[0.02] rounded-full blur-[80px] pointer-events-none" aria-hidden="true" />
 
       {/* ─── Content ─── */}
       <div className="relative max-w-lg mx-auto px-4 py-6 pb-20 flex flex-col min-h-screen">
@@ -89,8 +89,8 @@ export default function Home() {
         <header className="flex items-center justify-between mb-10">
           {/* Logo + wordmark */}
           <div className="flex items-center gap-3">
-            <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/25">
-              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <div className="relative w-9 h-9 rounded-xl bg-[#00ff88] flex items-center justify-center shadow-lg shadow-[#00ff88]/30">
+              <svg className="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zm-.5 1.5L21.96 12H17V9.5h2.5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm14 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
               </svg>
               {/* Shine overlay */}
@@ -98,9 +98,9 @@ export default function Home() {
             </div>
             <div>
               <h1 className="text-base font-bold tracking-tight text-white leading-none">
-                MoveMate <span className="text-violet-400">AI</span>
+                MoveMate <span className="text-[#00ff88]">AI</span>
               </h1>
-              <p className="text-[10px] text-slate-600 tracking-widest uppercase mt-0.5">
+              <p className="text-[10px] text-[#1a3a1a] tracking-widest uppercase mt-0.5">
                 Voice Moving Assistant
               </p>
             </div>
@@ -112,10 +112,10 @@ export default function Home() {
               isRecording
                 ? "bg-red-950/50 border-red-500/30 text-red-400"
                 : isSpeaking
-                  ? "bg-indigo-950/50 border-indigo-500/30 text-indigo-400"
+                  ? "bg-[#001a0d] border-[#00ff88]/30 text-[#00ff88]"
                   : isProcessing
-                    ? "bg-amber-950/40 border-amber-500/25 text-amber-400"
-                    : "bg-white/[0.04] border-white/[0.07] text-slate-600"
+                    ? "bg-[#001a0d] border-[#00cc6a]/25 text-[#00cc6a]"
+                    : "bg-white/[0.03] border-[#00ff88]/[0.08] text-[#1a3a1a]"
             }`}
             role="status"
             aria-live="polite"
@@ -125,9 +125,9 @@ export default function Home() {
                 isRecording || isSpeaking || isProcessing ? "animate-pulse" : ""
               } ${
                 isRecording ? "bg-red-400" :
-                isSpeaking ? "bg-indigo-400" :
-                isProcessing ? "bg-amber-400" :
-                "bg-slate-700"
+                isSpeaking ? "bg-[#00ff88]" :
+                isProcessing ? "bg-[#00cc6a]" :
+                "bg-[#1a3a1a]"
               }`}
             />
             {isRecording ? "Recording" : isSpeaking ? "Speaking" : isProcessing ? "Thinking" : "Ready"}
@@ -140,7 +140,7 @@ export default function Home() {
         <section className="flex flex-col items-center mb-10" aria-label="Voice assistant">
           {/* Dynamic tagline */}
           <p
-            className="text-sm text-slate-500 mb-6 h-5 transition-all duration-500 text-center"
+            className="text-sm text-[#1a3a1a] mb-6 h-5 transition-all duration-500 text-center"
             aria-live="polite"
           >
             {getHeroText()}
@@ -155,7 +155,7 @@ export default function Home() {
 
           {/* Keyboard hint — only on desktop, only when idle */}
           {!isBusy && !isRecording && (
-            <p className="mt-5 text-[11px] text-slate-700 text-center hidden sm:block">
+            <p className="mt-5 text-[11px] text-[#152a15] text-center hidden sm:block">
               Press and speak, or type below
             </p>
           )}
@@ -211,8 +211,8 @@ export default function Home() {
             TEXT INPUT (fallback)
         ════════════════════════════════════════ */}
         <div className="mt-auto">
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-xl p-4">
-            <p className="text-[10px] text-slate-600 mb-3 uppercase tracking-[0.14em] font-semibold flex items-center gap-1.5">
+          <div className="rounded-2xl border border-[#00ff88]/[0.08] bg-[#00ff88]/[0.02] backdrop-blur-xl p-4">
+            <p className="text-[10px] text-[#1a3a1a] mb-3 uppercase tracking-[0.14em] font-semibold flex items-center gap-1.5">
               <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
               </svg>
@@ -229,14 +229,14 @@ export default function Home() {
                 placeholder="Type a message… (Enter to send)"
                 rows={2}
                 aria-label="Text message input"
-                className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-xl px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:ring-1 focus:ring-violet-500/60 focus:border-violet-500/40 resize-none disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
+                className="flex-1 bg-[#00ff88]/[0.03] border border-[#00ff88]/[0.08] rounded-xl px-3.5 py-2.5 text-sm text-gray-200 placeholder-[#1a3a1a] focus:outline-none focus:ring-1 focus:ring-[#00ff88]/50 focus:border-[#00ff88]/30 resize-none disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
               />
               <button
                 id="send-button"
                 onClick={handleTextSubmit}
                 disabled={isBusy || !textInput.trim()}
                 aria-label="Send message"
-                className="px-4 rounded-xl bg-violet-600 hover:bg-violet-500 active:bg-violet-700 disabled:opacity-30 disabled:cursor-not-allowed text-white transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent flex-shrink-0 shadow-lg shadow-violet-500/20"
+                className="px-4 rounded-xl bg-[#00ff88] hover:bg-[#00cc6a] active:bg-[#009a4f] disabled:opacity-30 disabled:cursor-not-allowed text-black font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00ff88] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent flex-shrink-0 shadow-lg shadow-[#00ff88]/20"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -250,7 +250,7 @@ export default function Home() {
             <button
               id="reset-button"
               onClick={reset}
-              className="text-xs text-slate-700 hover:text-slate-400 transition-colors duration-200 flex items-center gap-1.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-slate-500 rounded px-2 py-1"
+              className="text-xs text-[#1a3a1a] hover:text-[#00ff88] transition-colors duration-200 flex items-center gap-1.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#00ff88]/50 rounded px-2 py-1"
               aria-label="Start a new conversation"
             >
               <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

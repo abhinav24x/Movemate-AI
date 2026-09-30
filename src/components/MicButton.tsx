@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { type RecordingState } from "@/hooks/useVoiceRecorder";
 
@@ -46,7 +46,7 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
         onClick={onClick}
         disabled={isDisabled}
         aria-label={ariaLabel}
-        className={`relative w-28 h-28 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${isDisabled ? "cursor-not-allowed" : "cursor-pointer hover:scale-105 active:scale-95"}`}
+        className={`relative w-28 h-28 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00ff88] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${isDisabled ? "cursor-not-allowed" : "cursor-pointer hover:scale-105 active:scale-95"}`}
       >
         {isRecording && (
           <>
@@ -56,15 +56,15 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
           </>
         )}
         {!isRecording && !isProcessing && !isSpeaking && (
-          <span className="absolute inset-[-4px] rounded-full bg-violet-600/10 animate-float-idle" />
+          <span className="absolute inset-[-4px] rounded-full bg-[#00ff88]/8 animate-float-idle" />
         )}
         <span
-          className={`absolute inset-0 rounded-full transition-all duration-500 ${isRecording ? "bg-red-500 animate-glow-red" : isSpeaking ? "bg-indigo-500 animate-glow-indigo" : isProcessing ? "bg-slate-700" : "bg-gradient-to-br from-violet-500 via-indigo-600 to-violet-700 animate-glow-violet"}`}
+          className={`absolute inset-0 rounded-full transition-all duration-500 ${isRecording ? "bg-red-500 animate-glow-red" : isSpeaking ? "bg-[#003d22] border border-[#00ff88]/40 animate-glow-green-soft" : isProcessing ? "bg-[#0a0a0a] border border-[#00ff88]/20" : "bg-gradient-to-br from-[#00ff88] via-[#00cc6a] to-[#009a4f] animate-glow-green"}`}
         />
         <span className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent via-white/5 to-white/10" />
         {isProcessing && (
           <span className="absolute inset-0 flex items-center justify-center">
-            <span className="animate-orbit w-3 h-3 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(167,139,250,0.8)]" />
+            <span className="animate-orbit w-3 h-3 rounded-full bg-[#00ff88] shadow-[0_0_10px_rgba(0,255,136,0.9)]" />
           </span>
         )}
         {isSpeaking && (
@@ -90,8 +90,8 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
         )}
       </button>
       <div className="flex items-center gap-2 h-5">
-        <span className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isRecording ? "bg-red-400 animate-pulse" : isSpeaking ? "bg-indigo-400 animate-pulse" : isProcessing ? "bg-amber-400 animate-pulse" : "bg-slate-600"}`} />
-        <p className={`text-sm font-medium tracking-wide transition-colors duration-300 ${isRecording ? "text-red-400" : isSpeaking ? "text-indigo-400" : isProcessing ? "text-amber-400" : "text-slate-500"}`}>
+        <span className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isRecording ? "bg-red-400 animate-pulse" : isSpeaking ? "bg-[#00ff88] animate-pulse" : isProcessing ? "bg-[#00ff88]/60 animate-pulse" : "bg-[#1a2a1a]"}`} />
+        <p className={`text-sm font-medium tracking-wide transition-colors duration-300 ${isRecording ? "text-red-400" : isSpeaking ? "text-[#00ff88]" : isProcessing ? "text-[#00cc6a]" : "text-[#2a3a2a]"}`}>
           {label}
         </p>
       </div>

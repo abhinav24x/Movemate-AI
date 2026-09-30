@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import type { BookingRequirements } from "@/lib/schemas/requirements";
 import { formatLocation } from "@/lib/schemas/requirements";
@@ -17,23 +17,23 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
     <div
       className={`rounded-2xl border backdrop-blur-xl p-5 transition-all duration-500 animate-fade-in ${
         isConfirmed
-          ? "border-emerald-500/25 bg-emerald-950/30"
-          : "border-amber-500/20 bg-amber-950/20"
+          ? "border-[#00ff88]/25 bg-[#001a0d]/60"
+          : "border-[#00ff88]/15 bg-[#001a0d]/30"
       }`}
     >
       {/* Header */}
       <div className="flex items-center gap-3 mb-5">
         <div
           className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-            isConfirmed ? "bg-emerald-500/20" : "bg-amber-500/15"
+            isConfirmed ? "bg-[#00ff88]/20" : "bg-[#00ff88]/10"
           }`}
         >
           {isConfirmed ? (
-            <svg className="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="w-4 h-4 text-[#00ff88]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
             </svg>
           ) : (
-            <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="w-4 h-4 text-[#00cc6a]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zm-.5 1.5L21.96 12H17V9.5h2.5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm14 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
             </svg>
           )}
@@ -41,7 +41,7 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
         <div>
           <h2
             className={`text-sm font-bold tracking-wide ${
-              isConfirmed ? "text-emerald-400" : "text-amber-400"
+              isConfirmed ? "text-[#00ff88]" : "text-[#00cc6a]"
             }`}
           >
             {isConfirmed ? "Booking Confirmed" : "Booking Summary"}
@@ -57,9 +57,9 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
       {/* Route visualization */}
       <div className="flex gap-3 mb-5">
         <div className="flex flex-col items-center gap-1 flex-shrink-0 pt-1">
-          <div className={`w-2.5 h-2.5 rounded-full ${isConfirmed ? "bg-emerald-400" : "bg-violet-400"}`} />
-          <div className="w-0.5 h-8 bg-gradient-to-b from-violet-400/40 to-indigo-400/40 rounded-full" />
-          <div className={`w-2.5 h-2.5 rounded-full border-2 ${isConfirmed ? "border-emerald-400" : "border-indigo-400"}`} />
+          <div className={`w-2.5 h-2.5 rounded-full ${isConfirmed ? "bg-[#00ff88]" : "bg-[#00cc6a]"}`} />
+          <div className="w-0.5 h-8 bg-gradient-to-b from-[#00ff88]/40 to-[#00cc6a]/40 rounded-full" />
+          <div className={`w-2.5 h-2.5 rounded-full border-2 ${isConfirmed ? "border-[#00ff88]" : "border-[#00cc6a]"}`} />
         </div>
         <div className="flex flex-col justify-between flex-1 gap-1">
           <div>
@@ -76,7 +76,7 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
       {/* Detail rows */}
       <div
         className={`rounded-xl border p-3 space-y-2.5 ${
-          isConfirmed ? "border-emerald-500/15 bg-emerald-950/20" : "border-amber-500/10 bg-amber-950/10"
+          isConfirmed ? "border-[#00ff88]/15 bg-[#001a0d]/30" : "border-[#00ff88]/10 bg-[#001a0d]/15"
         }`}
       >
         <SummaryRow label="Items" value={
@@ -96,8 +96,8 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
       <p
         className={`mt-3 text-xs border-t pt-3 ${
           isConfirmed
-            ? "text-emerald-400/60 border-emerald-500/15"
-            : "text-amber-400/60 border-amber-500/10"
+            ? "text-[#00ff88]/60 border-[#00ff88]/15"
+            : "text-[#00cc6a]/60 border-[#00ff88]/10"
         }`}
       >
         {isConfirmed

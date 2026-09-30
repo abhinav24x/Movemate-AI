@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, useEffect } from "react";
 import type { ConversationMessage } from "@/lib/schemas/agent-response";
@@ -16,10 +16,10 @@ export function TranscriptPanel({ messages }: TranscriptPanelProps) {
 
   if (messages.length === 0) {
     return (
-      <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-xl p-5">
+      <div className="rounded-2xl border border-[#00ff88]/[0.08] bg-[#00ff88]/[0.02] backdrop-blur-xl p-5">
         <div className="flex items-center gap-2.5 mb-4">
-          <div className="w-1 h-4 rounded-full bg-gradient-to-b from-violet-500 to-indigo-500" />
-          <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
+          <div className="w-1 h-4 rounded-full bg-gradient-to-b from-[#00ff88] to-[#00cc6a]" />
+          <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#1a4a1a]">
             Conversation
           </h2>
         </div>
@@ -29,7 +29,7 @@ export function TranscriptPanel({ messages }: TranscriptPanelProps) {
               <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
             </svg>
           </div>
-          <p className="text-slate-600 text-sm text-center leading-relaxed">
+          <p className="text-[#1a3a1a] text-sm text-center leading-relaxed">
             Your conversation will appear here
           </p>
         </div>
@@ -38,13 +38,13 @@ export function TranscriptPanel({ messages }: TranscriptPanelProps) {
   }
 
   return (
-    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-xl p-5 animate-fade-in">
+    <div className="rounded-2xl border border-[#00ff88]/[0.08] bg-[#00ff88]/[0.02] backdrop-blur-xl p-5 animate-fade-in">
       <div className="flex items-center gap-2.5 mb-4">
-        <div className="w-1 h-4 rounded-full bg-gradient-to-b from-violet-500 to-indigo-500" />
-        <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
+        <div className="w-1 h-4 rounded-full bg-gradient-to-b from-[#00ff88] to-[#00cc6a]" />
+        <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#1a4a1a]">
           Conversation
         </h2>
-        <span className="ml-auto text-xs text-slate-700 tabular-nums">{messages.length}</span>
+        <span className="ml-auto text-xs text-[#1a3a1a] tabular-nums">{messages.length}</span>
       </div>
 
       <div className="space-y-4 max-h-72 overflow-y-auto pr-1 scrollbar-thin">
@@ -57,13 +57,13 @@ export function TranscriptPanel({ messages }: TranscriptPanelProps) {
             <div
               className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
                 msg.role === "assistant"
-                  ? "bg-gradient-to-br from-violet-600 to-indigo-600"
-                  : "bg-gradient-to-br from-slate-600 to-slate-700"
+                  ? "bg-[#00ff88]"
+                  : "bg-[#1a1a1a] border border-[#333]"
               }`}
               aria-hidden="true"
             >
               {msg.role === "assistant" ? (
-                <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 text-black" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/>
                 </svg>
               ) : (
@@ -77,8 +77,8 @@ export function TranscriptPanel({ messages }: TranscriptPanelProps) {
             <div
               className={`max-w-[78%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                 msg.role === "user"
-                  ? "bg-violet-600/20 border border-violet-500/25 text-slate-200 rounded-tr-sm"
-                  : "bg-white/[0.05] border border-white/[0.07] text-slate-200 rounded-tl-sm"
+                  ? "bg-[#00ff88]/10 border border-[#00ff88]/20 text-gray-200 rounded-tr-sm"
+                  : "bg-[#0d0d0d] border border-[#00ff88]/[0.07] text-gray-200 rounded-tl-sm"
               }`}
             >
               <p className="text-[10px] font-semibold uppercase tracking-wider mb-1.5 opacity-50">

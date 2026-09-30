@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import type { BookingRequirements } from "@/lib/schemas/requirements";
 import { formatLocation, hasLocation } from "@/lib/schemas/requirements";
@@ -84,12 +84,12 @@ export function RequirementsPanel({ requirements, status }: RequirementsPanelPro
   const progress = Math.round((filledCount / fields.length) * 100);
 
   return (
-    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-xl p-5 animate-fade-in">
+    <div className="rounded-2xl border border-[#00ff88]/[0.08] bg-[#00ff88]/[0.02] backdrop-blur-xl p-5 animate-fade-in">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2.5">
-          <div className="w-1 h-4 rounded-full bg-gradient-to-b from-violet-500 to-indigo-500" />
-          <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
+          <div className="w-1 h-4 rounded-full bg-gradient-to-b from-[#00ff88] to-[#00cc6a]" />
+          <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#1a4a1a]">
             Trip Details
           </h2>
         </div>
@@ -100,7 +100,7 @@ export function RequirementsPanel({ requirements, status }: RequirementsPanelPro
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className="text-xs text-slate-600 tabular-nums font-mono">
+          <span className="text-xs text-[#1a3a1a] tabular-nums font-mono">
             {filledCount}/{fields.length}
           </span>
         </div>
@@ -113,28 +113,28 @@ export function RequirementsPanel({ requirements, status }: RequirementsPanelPro
             key={label}
             className={`flex items-center gap-3 text-sm rounded-xl px-3 py-2.5 transition-all duration-300 ${
               filled
-                ? "bg-white/[0.05] border border-white/[0.06]"
+                ? "bg-[#00ff88]/[0.05] border border-[#00ff88]/[0.08]"
                 : "opacity-40"
             }`}
           >
             {/* Icon */}
             <span
               className={`flex-shrink-0 transition-colors duration-300 ${
-                filled ? "text-violet-400" : "text-slate-700"
+                filled ? "text-[#00ff88]" : "text-[#1a2a1a]"
               }`}
             >
               {fieldIcons[label]}
             </span>
 
             {/* Label */}
-            <span className="text-slate-500 font-medium flex-shrink-0 w-12 text-xs uppercase tracking-wider">
+            <span className="text-[#1a4a1a] font-medium flex-shrink-0 w-12 text-xs uppercase tracking-wider">
               {label}
             </span>
 
             {/* Value */}
             <span
               className={`flex-1 text-right break-words text-sm ${
-                filled ? "text-slate-200" : "text-slate-700"
+                filled ? "text-gray-200" : "text-[#1a2a1a]"
               }`}
             >
               {value}
@@ -143,7 +143,7 @@ export function RequirementsPanel({ requirements, status }: RequirementsPanelPro
             {/* Check / circle */}
             <span
               className={`flex-shrink-0 transition-all duration-300 ${
-                filled ? "text-emerald-400" : "text-slate-800"
+                filled ? "text-[#00ff88]" : "text-[#111]"
               }`}
             >
               {filled ? (
@@ -175,11 +175,11 @@ export function RequirementsPanel({ requirements, status }: RequirementsPanelPro
 
       {/* Confirmed badge */}
       {status === "confirmed" && (
-        <div className="mt-3 rounded-xl bg-emerald-950/50 border border-emerald-600/30 px-3 py-2.5 flex items-center gap-2">
-          <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <div className="mt-3 rounded-xl bg-[#001a0d] border border-[#00ff88]/25 px-3 py-2.5 flex items-center gap-2">
+          <svg className="w-4 h-4 text-[#00ff88] flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5l-4.5-4.5 1.41-1.41L10 13.67l7.09-7.09 1.41 1.41L10 16.5z"/>
           </svg>
-          <span className="text-sm text-emerald-400 font-medium">Requirements confirmed</span>
+          <span className="text-sm text-[#00ff88] font-medium">Requirements confirmed</span>
         </div>
       )}
     </div>

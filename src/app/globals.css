@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @theme {
   --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -14,17 +14,17 @@
 }
 
 body {
-  background-color: #080c14;
+  background-color: #050505;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================================
-   SLIM SCROLLBAR
+   SLIM SCROLLBAR — neon green tint
    ============================================================ */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: rgba(99, 120, 180, 0.22) transparent;
+  scrollbar-color: rgba(0, 255, 136, 0.18) transparent;
 }
 
 .scrollbar-thin::-webkit-scrollbar {
@@ -36,7 +36,7 @@ body {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: rgba(99, 120, 180, 0.22);
+  background-color: rgba(0, 255, 136, 0.18);
   border-radius: 9999px;
 }
 
@@ -94,20 +94,30 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Glow pulse for mic orb */
-@keyframes glow-pulse-violet {
-  0%, 100% { box-shadow: 0 0 24px rgba(124, 58, 237, 0.35), 0 0 60px rgba(124, 58, 237, 0.1); }
-  50%       { box-shadow: 0 0 44px rgba(124, 58, 237, 0.6),  0 0 90px rgba(124, 58, 237, 0.2); }
+/* Neon green glow — idle mic orb */
+@keyframes glow-pulse-green {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.4), 0 0 60px rgba(0, 255, 136, 0.12), 0 0 100px rgba(0, 255, 136, 0.05); }
+  50%       { box-shadow: 0 0 40px rgba(0, 255, 136, 0.65), 0 0 90px rgba(0, 255, 136, 0.22), 0 0 140px rgba(0, 255, 136, 0.08); }
 }
 
+/* Red glow — recording */
 @keyframes glow-pulse-red {
   0%, 100% { box-shadow: 0 0 24px rgba(239, 68, 68, 0.45), 0 0 60px rgba(239, 68, 68, 0.1); }
   50%       { box-shadow: 0 0 50px rgba(239, 68, 68, 0.7),  0 0 90px rgba(239, 68, 68, 0.25); }
 }
 
-@keyframes glow-pulse-indigo {
-  0%, 100% { box-shadow: 0 0 24px rgba(99, 102, 241, 0.4), 0 0 60px rgba(99, 102, 241, 0.1); }
-  50%       { box-shadow: 0 0 48px rgba(99, 102, 241, 0.65), 0 0 90px rgba(99, 102, 241, 0.2); }
+/* Soft green glow — speaking */
+@keyframes glow-pulse-green-soft {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.25), 0 0 50px rgba(0, 255, 136, 0.08); }
+  50%       { box-shadow: 0 0 36px rgba(0, 255, 136, 0.45), 0 0 70px rgba(0, 255, 136, 0.15); }
+}
+
+/* Neon border scan line effect */
+@keyframes scan-line {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(100%); opacity: 0; }
 }
 
 /* ============================================================
@@ -134,12 +144,13 @@ body {
 .animate-message-in  { animation: message-in 0.32s ease-out forwards; }
 .animate-fade-in     { animation: fade-in 0.4s ease-out forwards; }
 
-.animate-glow-violet { animation: glow-pulse-violet 2.8s ease-in-out infinite; }
-.animate-glow-red    { animation: glow-pulse-red    2.2s ease-in-out infinite; }
-.animate-glow-indigo { animation: glow-pulse-indigo 2.5s ease-in-out infinite; }
+.animate-glow-green      { animation: glow-pulse-green      2.8s ease-in-out infinite; }
+.animate-glow-red        { animation: glow-pulse-red        2.2s ease-in-out infinite; }
+.animate-glow-green-soft { animation: glow-pulse-green-soft 2.5s ease-in-out infinite; }
 
+/* Neon green shimmer progress bar */
 .progress-bar-shimmer {
-  background: linear-gradient(90deg, #7c3aed 0%, #4f46e5 40%, #06b6d4 70%, #7c3aed 100%);
+  background: linear-gradient(90deg, #00ff88 0%, #00cc6a 40%, #00ff88 70%, #00e07a 100%);
   background-size: 200% 100%;
   animation: shimmer 2.8s linear infinite;
   transition: width 0.65s cubic-bezier(0.4, 0, 0.2, 1);
@@ -157,4 +168,3 @@ body {
     transition-duration: 0.15ms !important;
   }
 }
-
