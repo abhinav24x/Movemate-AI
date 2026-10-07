@@ -33,7 +33,7 @@ export default function Home() {
 
   const handleTextSubmit = useCallback(async () => {
     const text = textInput.trim();
-    if (!text || phase === "processing" || phase === "speaking") return;
+    if (!text || phase === "processing" || phase === "preparing" || phase === "speaking") return;
     setTextInput("");
     setErrorMessage(null);
     await sendMessage(text);
@@ -51,18 +51,21 @@ export default function Home() {
 
   const isBusy =
     phase === "processing" ||
+    phase === "preparing" ||
     phase === "speaking" ||
     recordingState === "processing";
 
   const displayError = errorMessage || conversationError;
   const isRecording = recordingState === "recording";
-  const isProcessing = recordingState === "processing" || phase === "processing";
+  const isProcessing = phase === "processing" || (recordingState === "processing" && phase === "idle");
+  const isPreparingVoice = phase === "preparing";
   const isSpeaking = phase === "speaking";
 
   // Hero tagline based on current state
   const getHeroText = () => {
     if (isRecording) return "Listening…";
     if (isProcessing) return "Thinking…";
+    if (isPreparingVoice) return "Preparing voice…";
     if (isSpeaking) return "MoveMate is speaking…";
     if (state.messages.length > 0) return "Continue your conversation";
     return "Where are you moving today?";
@@ -73,6 +76,8 @@ export default function Home() {
     ? { label: "Listening", dot: "bg-red-400", pill: "bg-red-950/70 border-red-500/50 text-red-300 shadow-[0_0_14px_rgba(239,68,68,0.22)]" }
     : isSpeaking
       ? { label: "Speaking", dot: "bg-[#39FF14]", pill: "bg-[#0a1a05]/80 border-[#39FF14]/40 text-[#39FF14] shadow-[0_0_14px_rgba(57,255,20,0.18)]" }
+      : isPreparingVoice
+        ? { label: "Preparing voice", dot: "bg-[#39FF14]/70", pill: "bg-[#0a1a05]/80 border-[#39FF14]/30 text-[#8be870] shadow-[0_0_10px_rgba(57,255,20,0.12)]" }
       : isProcessing
         ? { label: "Thinking", dot: "bg-[#39FF14]/70", pill: "bg-[#0a1a05]/80 border-[#39FF14]/30 text-[#8be870] shadow-[0_0_10px_rgba(57,255,20,0.12)]" }
         : { label: "Ready", dot: "bg-[#39FF14]/40", pill: "bg-black/50 border-white/8 text-[#8A8A8A]" };
@@ -120,7 +125,7 @@ export default function Home() {
             aria-label={`Assistant status: ${statusConfig.label}`}
           >
             <span
-              className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${statusConfig.dot} ${isRecording || isSpeaking || isProcessing ? "animate-pulse" : ""}`}
+              className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${statusConfig.dot} ${isRecording || isSpeaking || isProcessing || isPreparingVoice ? "animate-pulse" : ""}`}
             />
             {statusConfig.label}
           </div>

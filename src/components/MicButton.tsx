@@ -4,17 +4,17 @@ import { type RecordingState } from "@/hooks/useVoiceRecorder";
 
 interface MicButtonProps {
   recordingState: RecordingState;
-  conversationPhase: "idle" | "processing" | "speaking" | "error";
+  conversationPhase: "idle" | "processing" | "preparing" | "speaking" | "error";
   onClick: () => void;
 }
 
 export function MicButton({ recordingState, conversationPhase, onClick }: MicButtonProps) {
   const isRecording = recordingState === "recording";
-  const isProcessing =
-    recordingState === "processing" ||
-    conversationPhase === "processing";
+  const isProcessing = conversationPhase === "processing" ||
+    (recordingState === "processing" && conversationPhase === "idle");
+  const isPreparing = conversationPhase === "preparing";
   const isSpeaking = conversationPhase === "speaking";
-  const isDisabled = isProcessing || isSpeaking || recordingState === "requesting";
+  const isDisabled = isProcessing || isPreparing || isSpeaking || recordingState === "requesting";
 
   // Label for screen readers and status text
   let label = "Tap to speak";
@@ -26,15 +26,18 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
   } else if (isRecording) {
     label = "Listening…";
     ariaLabel = "Stop recording — tap to finish";
-  } else if (recordingState === "processing") {
+  } else if (isPreparing) {
+    label = "Preparing voice…";
+    ariaLabel = "Preparing the assistant voice response";
+  } else if (isSpeaking) {
+    label = "Speaking…";
+    ariaLabel = "Assistant is speaking";
+  } else if (recordingState === "processing" && conversationPhase === "idle") {
     label = "Transcribing…";
     ariaLabel = "Transcribing your audio";
   } else if (conversationPhase === "processing") {
     label = "Thinking…";
     ariaLabel = "AI is processing your request";
-  } else if (isSpeaking) {
-    label = "Speaking…";
-    ariaLabel = "Assistant is speaking";
   } else if (recordingState === "error") {
     label = "Tap to retry";
     ariaLabel = "Try recording again";
@@ -62,7 +65,7 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
         )}
 
         {/* Float aura — idle state */}
-        {!isRecording && !isProcessing && !isSpeaking && (
+        {!isRecording && !isProcessing && !isPreparing && !isSpeaking && (
           <span className="absolute inset-[-6px] rounded-full bg-[#39FF14]/[0.06] animate-float-idle" />
         )}
 
@@ -73,7 +76,7 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
               ? "bg-red-500 animate-glow-red"
               : isSpeaking
                 ? "bg-[#0a1a05] border-2 border-[#39FF14]/50 animate-glow-green-soft"
-                : isProcessing
+                : isProcessing || isPreparing
                   ? "bg-[#111] border border-[#39FF14]/25"
                   : "bg-gradient-to-br from-[#39FF14] via-[#2dd40f] to-[#1fa009] animate-glow-green"
           }`}
@@ -83,7 +86,7 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
         <span className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent via-white/[0.04] to-white/12 pointer-events-none" />
 
         {/* Processing — orbiting dot */}
-        {isProcessing && (
+        {(isProcessing || isPreparing) && (
           <span className="absolute inset-0 flex items-center justify-center">
             <span className="animate-orbit w-3 h-3 rounded-full bg-[#39FF14] shadow-[0_0_12px_rgba(57,255,20,0.9)]" />
           </span>
@@ -108,7 +111,7 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
         )}
 
         {/* Idle / error — microphone icon */}
-        {!isRecording && !isProcessing && !isSpeaking && (
+        {!isRecording && !isProcessing && !isPreparing && !isSpeaking && (
           <span className="absolute inset-0 flex items-center justify-center text-black">
             <svg
               className="w-10 h-10 drop-shadow-sm"
@@ -128,7 +131,7 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
           className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors duration-300 ${
             isRecording  ? "bg-red-400 animate-pulse"      :
             isSpeaking   ? "bg-[#39FF14] animate-pulse"   :
-            isProcessing ? "bg-[#39FF14]/60 animate-pulse" :
+            isProcessing || isPreparing ? "bg-[#39FF14]/60 animate-pulse" :
             "bg-[#39FF14]/35"
           }`}
         />
@@ -136,7 +139,7 @@ export function MicButton({ recordingState, conversationPhase, onClick }: MicBut
           className={`text-sm font-medium tracking-wide transition-colors duration-300 ${
             isRecording  ? "text-red-400"  :
             isSpeaking   ? "text-[#39FF14]" :
-            isProcessing ? "text-[#8be870]" :
+            isProcessing || isPreparing ? "text-[#8be870]" :
             "text-[#8A8A8A]"
           }`}
         >
