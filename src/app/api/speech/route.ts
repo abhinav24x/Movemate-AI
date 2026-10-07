@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
   } catch (err: unknown) {
     console.error("[/api/speech]", err);
     return NextResponse.json(
-      { error: "Voice synthesis failed. Please try again." },
+      { error: "Voice generation failed. Please try again." },
       { status: 500 },
     );
   }
