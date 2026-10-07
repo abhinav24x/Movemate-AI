@@ -2,7 +2,7 @@
 
 > A voice-powered AI moving assistant that books your move through natural conversation.
 
-**[Live Demo →](https://movemate-ai-chi.vercel.app)**
+**[Live Demo →](https://movemate-ai-two.vercel.app/)**
 
 ---
 
