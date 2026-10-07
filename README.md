@@ -56,7 +56,7 @@ Browser audio playback
 - Conversation state is fully client-owned and sent with every request (no database, no sessions)
 - Every API response is Zod-validated before being applied to state
 - Merge logic preserves existing values when LLM omits fields (prevents accidental data loss)
-- Intentional clearing (e.g. "forget the time") is handled via `cleared_fields` — distinct from a field simply being absent
+- Intentional clearing (e.g. "forget the time") is handled via the validated `cleared_fields` list of supported requirement names — distinct from a field simply being absent or `null`
 
 ---
 

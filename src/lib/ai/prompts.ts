@@ -79,7 +79,8 @@ The full response JSON schema:
 
 FIELD CLEARING RULE:
 If the user explicitly asks to REMOVE or FORGET a field (e.g. "remove the special requirement", "forget the time", "no additional notes"),
-add that field name to cleared_fields. Valid names: pickup, drop, items, vehicle_type, date, time, special_requirements, additional_notes.
+add exactly that requirement field name to cleared_fields. Valid names: pickup, drop, items, vehicle_type, date, time, special_requirements, additional_notes.
+Never include any other field name in cleared_fields.
 Do NOT add a field to cleared_fields just because it is missing from this response.
 Only add it when the user EXPLICITLY asks to erase it.
 

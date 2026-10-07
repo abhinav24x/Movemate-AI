@@ -60,6 +60,20 @@ export const BookingRequirementsSchema = z.object({
 });
 export type BookingRequirements = z.infer<typeof BookingRequirementsSchema>;
 
+/** Requirement fields that can be intentionally cleared by the user. */
+export const CLEARABLE_REQUIREMENT_FIELDS = [
+  "pickup",
+  "drop",
+  "items",
+  "vehicle_type",
+  "date",
+  "time",
+  "special_requirements",
+  "additional_notes",
+] as const;
+export const ClearableRequirementFieldSchema = z.enum(CLEARABLE_REQUIREMENT_FIELDS);
+export type ClearableRequirementField = z.infer<typeof ClearableRequirementFieldSchema>;
+
 export const emptyRequirements = (): BookingRequirements => ({
   pickup: null,
   drop: null,

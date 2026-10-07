@@ -28,7 +28,7 @@ import { checkRateLimit } from "../src/lib/rate-limit";
 // Helpers
 // ---------------------------------------------------------------------------
 type LLMResponseOverrides = Omit<Partial<AgentLLMResponse>, "cleared_fields"> & {
-  cleared_fields?: string[];
+  cleared_fields?: AgentLLMResponse["cleared_fields"];
 };
 
 function makeLLMResponse(overrides: LLMResponseOverrides = {}): AgentLLMResponse {
@@ -165,6 +165,22 @@ describe("mergeRequirements — field clearing", () => {
     const merged = mergeRequirements(current, update, ["special_requirements"]);
     expect(merged.special_requirements).toBeNull(); // cleared wins
   });
+
+  test("ignores unsupported field names", () => {
+    const current = filledRequirements();
+    const merged = mergeRequirements(current, current, ["status", "__proto__"]);
+    expect(merged).toEqual(current);
+  });
+
+  test("preserves unrelated fields when correcting one field", () => {
+    const current = filledRequirements();
+    const update = { ...current, time: "19:00" };
+    const merged = mergeRequirements(current, update);
+    expect(merged.time).toBe("19:00");
+    expect(merged.special_requirements).toBe("Need packing service");
+    expect(merged.additional_notes).toBe("Call before arrival");
+    expect(merged.pickup?.area).toBe("Koramangala");
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -252,6 +268,14 @@ describe("AgentLLMResponseSchema — cleared_fields", () => {
     });
     const result = AgentLLMResponseSchema.safeParse(response);
     expect(result.success).toBe(true);
+  });
+
+  test("rejects unsupported field names", () => {
+    const response = makeLLMResponse({
+      // Runtime invalid LLM output, deliberately bypassing the TypeScript type.
+      cleared_fields: ["status"] as unknown as AgentLLMResponse["cleared_fields"],
+    });
+    expect(AgentLLMResponseSchema.safeParse(response).success).toBe(false);
   });
 });
 

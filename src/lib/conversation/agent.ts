@@ -1,5 +1,9 @@
 import type { ConversationState, ConversationMessage, AgentResponse } from "@/lib/schemas/agent-response";
-import { BookingRequirementsSchema, emptyRequirements } from "@/lib/schemas/requirements";
+import {
+  BookingRequirementsSchema,
+  CLEARABLE_REQUIREMENT_FIELDS,
+  emptyRequirements,
+} from "@/lib/schemas/requirements";
 import { callGroqAgent } from "@/lib/ai/groq";
 import type { BookingRequirements } from "@/lib/schemas/requirements";
 
@@ -72,19 +76,9 @@ export async function runConversationTurn(
 }
 
 // ---------------------------------------------------------------------------
-// The set of fields that can be individually cleared
-// ---------------------------------------------------------------------------
-type ClearableField = keyof BookingRequirements;
-
-const CLEARABLE_FIELDS: ClearableField[] = [
-  "pickup",
-  "drop",
-  "vehicle_type",
-  "date",
-  "time",
-  "special_requirements",
-  "additional_notes",
-];
+// The set is shared with the structured LLM response schema. Keep a runtime
+// check here as mergeRequirements can also be called independently of Zod.
+const CLEARABLE_FIELD_SET: ReadonlySet<string> = new Set(CLEARABLE_REQUIREMENT_FIELDS);
 
 // ---------------------------------------------------------------------------
 // Safe merge: never lose existing data unless LLM explicitly overwrites or
@@ -108,14 +102,14 @@ export function mergeRequirements(
   }
 
   const upd = parsed.data;
-  const cleared = new Set(clearedFields);
+  const cleared = new Set(clearedFields.filter((field) => CLEARABLE_FIELD_SET.has(field)));
 
   /**
    * Resolve a scalar nullable field.
    * Priority: cleared → new value → current value
    */
   function resolveField<T>(
-    field: ClearableField,
+    field: keyof BookingRequirements,
     newVal: T | null,
     currentVal: T | null,
   ): T | null {
@@ -139,6 +133,3 @@ export function mergeRequirements(
         : current.items,
   };
 }
-
-// Suppress unused variable warning for CLEARABLE_FIELDS (used for documentation)
-void CLEARABLE_FIELDS;

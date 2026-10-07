@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BookingRequirementsSchema } from "./requirements";
+import { BookingRequirementsSchema, ClearableRequirementFieldSchema } from "./requirements";
 
 // ---------------------------------------------------------------------------
 // Conversation status
@@ -48,7 +48,7 @@ export const AgentLLMResponseSchema = z.object({
     .describe("Names of the fields that were corrected in this turn"),
 
   cleared_fields: z
-    .array(z.string())
+    .array(ClearableRequirementFieldSchema)
     .default([])
     .describe(
       "Names of fields the user explicitly asked to remove or clear. " +
