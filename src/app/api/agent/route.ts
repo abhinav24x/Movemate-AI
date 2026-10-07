@@ -1,8 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AgentRequestSchema } from "@/lib/schemas/agent-response";
 import { runConversationTurn } from "@/lib/conversation/agent";
+import { checkRateLimit, getRateLimitKey, rateLimitedResponse } from "@/lib/rate-limit";
+
+// 30 requests per 60 seconds per IP
+const LIMIT = 30;
+const WINDOW_MS = 60_000;
 
 export async function POST(req: NextRequest) {
+  // Rate limiting
+  const key = getRateLimitKey(req, "agent");
+  if (!checkRateLimit(key, LIMIT, WINDOW_MS)) {
+    return rateLimitedResponse();
+  }
+
   try {
     let body: unknown;
     try {
@@ -14,33 +25,28 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate request body
+    // Validate request body — reject malformed or unexpected state
     const parsed = AgentRequestSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Invalid request format", details: parsed.error.flatten() },
+        { error: "Invalid request format" },
         { status: 400 },
       );
     }
 
     const { userMessage, conversationState } = parsed.data;
 
-    // Run the conversation turn (STT already done client-side)
+    // Run the conversation turn
     const result = await runConversationTurn(userMessage, conversationState);
 
     return NextResponse.json(result);
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Agent processing failed";
     console.error("[/api/agent]", err);
 
-    // Don't expose internal details
-    const userMessage =
-      message.includes("GROQ_API_KEY") || message.includes("environment variable")
-        ? "Server configuration error. Please check API keys."
-        : message.includes("Groq")
-          ? "AI processing is temporarily unavailable. Please try again."
-          : message;
-
-    return NextResponse.json({ error: userMessage }, { status: 500 });
+    // Never expose raw provider/internal errors to the client
+    return NextResponse.json(
+      { error: "Something went wrong while processing your request. Please try again." },
+      { status: 500 },
+    );
   }
 }

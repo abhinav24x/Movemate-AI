@@ -1,12 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { textToSpeech } from "@/lib/voice/tts";
 import { z } from "zod";
+import { checkRateLimit, getRateLimitKey, rateLimitedResponse } from "@/lib/rate-limit";
 
 const RequestSchema = z.object({
   text: z.string().min(1).max(1000),
 });
 
+// 30 requests per 60 seconds per IP
+const LIMIT = 30;
+const WINDOW_MS = 60_000;
+
 export async function POST(req: NextRequest) {
+  // Rate limiting
+  const key = getRateLimitKey(req, "speech");
+  if (!checkRateLimit(key, LIMIT, WINDOW_MS)) {
+    return rateLimitedResponse();
+  }
+
   try {
     let body: unknown;
     try {
@@ -26,7 +37,6 @@ export async function POST(req: NextRequest) {
     const { text } = parsed.data;
     const { audioBuffer, mimeType } = await textToSpeech(text);
 
-    // Convert Buffer to Uint8Array for NextResponse compatibility
     const uint8Array = new Uint8Array(audioBuffer);
 
     return new NextResponse(uint8Array, {
@@ -38,17 +48,10 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Text-to-speech failed";
     console.error("[/api/speech]", err);
-
-    // Don't expose API key errors
-    const userMessage =
-      message.includes("ELEVENLABS") || message.includes("environment variable")
-        ? "Voice synthesis is not configured. Please check API keys."
-        : message.includes("Text-to-speech")
-          ? "Voice synthesis is temporarily unavailable."
-          : message;
-
-    return NextResponse.json({ error: userMessage }, { status: 500 });
+    return NextResponse.json(
+      { error: "Voice synthesis failed. Please try again." },
+      { status: 500 },
+    );
   }
 }

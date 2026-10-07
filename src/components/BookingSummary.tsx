@@ -15,25 +15,25 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
 
   return (
     <div
-      className={`rounded-2xl neon-card backdrop-blur-xl p-5 transition-all duration-500 animate-fade-in ${
-        isConfirmed
-          ? "bg-[#001a0d]/80"
-          : "bg-[#050505]"
+      className={`rounded-2xl neon-card p-5 transition-all duration-500 animate-fade-in ${
+        isConfirmed ? "bg-[#0a1a05]/70" : "bg-[#0D0D0D]"
       }`}
     >
       {/* Header */}
       <div className="flex items-center gap-3 mb-5">
         <div
-          className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-            isConfirmed ? "bg-[#00ff88]/20" : "bg-[#00ff88]/10"
+          className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
+            isConfirmed
+              ? "bg-[#39FF14]/15 shadow-[0_0_16px_rgba(57,255,20,0.15)]"
+              : "bg-[#39FF14]/8"
           }`}
         >
           {isConfirmed ? (
-            <svg className="w-4 h-4 text-[#00ff88]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="w-4.5 h-4.5 w-5 h-5 text-[#39FF14]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
             </svg>
           ) : (
-            <svg className="w-4 h-4 text-[#00cc6a]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="w-5 h-5 text-[#39FF14]/70" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zm-.5 1.5L21.96 12H17V9.5h2.5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm14 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
             </svg>
           )}
@@ -41,42 +41,44 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
         <div>
           <h2
             className={`text-sm font-bold tracking-wide ${
-              isConfirmed ? "text-[#00ff88]" : "text-[#00cc6a]"
+              isConfirmed ? "text-[#39FF14]" : "text-[#8be870]"
             }`}
           >
             {isConfirmed ? "Booking Confirmed" : "Booking Summary"}
           </h2>
-          <p className="text-xs text-[#4a9a6a] mt-0.5">
+          <p className="text-xs text-[#8A8A8A] mt-0.5">
             {isConfirmed
-              ? "All details have been confirmed"
+              ? "All details confirmed"
               : "Please review and confirm"}
           </p>
         </div>
       </div>
 
-      {/* Route visualization */}
+      {/* Route visualization — From → To */}
       <div className="flex gap-3 mb-5">
-        <div className="flex flex-col items-center gap-1 flex-shrink-0 pt-1">
-          <div className={`w-2.5 h-2.5 rounded-full ${isConfirmed ? "bg-[#00ff88]" : "bg-[#00cc6a]"}`} />
-          <div className="w-0.5 h-8 bg-gradient-to-b from-[#00ff88]/40 to-[#00cc6a]/40 rounded-full" />
-          <div className={`w-2.5 h-2.5 rounded-full border-2 ${isConfirmed ? "border-[#00ff88]" : "border-[#00cc6a]"}`} />
+        <div className="flex flex-col items-center gap-1 flex-shrink-0 pt-1.5">
+          <div className={`w-2.5 h-2.5 rounded-full ${isConfirmed ? "bg-[#39FF14]" : "bg-[#39FF14]/60"}`} />
+          <div className="w-px h-8 bg-gradient-to-b from-[#39FF14]/40 to-[#39FF14]/15 rounded-full" />
+          <div className={`w-2.5 h-2.5 rounded-full border-2 ${isConfirmed ? "border-[#39FF14]" : "border-[#39FF14]/50"}`} />
         </div>
-        <div className="flex flex-col justify-between flex-1 gap-1">
+        <div className="flex flex-col justify-between flex-1 gap-1.5">
           <div>
-            <p className="text-[10px] uppercase tracking-wider text-slate-600 font-medium">From</p>
-            <p className="text-sm text-slate-200 font-medium mt-0.5">{formatLocation(requirements.pickup)}</p>
+            <p className="text-[9px] uppercase tracking-widest text-[#555] font-semibold">From</p>
+            <p className="text-sm text-[#F5F5F5] font-medium mt-0.5">{formatLocation(requirements.pickup)}</p>
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-wider text-slate-600 font-medium">To</p>
-            <p className="text-sm text-slate-200 font-medium mt-0.5">{formatLocation(requirements.drop)}</p>
+            <p className="text-[9px] uppercase tracking-widest text-[#555] font-semibold">To</p>
+            <p className="text-sm text-[#F5F5F5] font-medium mt-0.5">{formatLocation(requirements.drop)}</p>
           </div>
         </div>
       </div>
 
-      {/* Detail rows */}
+      {/* Detail rows card */}
       <div
-        className={`rounded-xl border p-3 space-y-2.5 ${
-          isConfirmed ? "border-[#00ff88]/15 bg-[#001a0d]/30" : "border-[#00ff88]/10 bg-[#001a0d]/15"
+        className={`rounded-xl border p-3.5 space-y-2.5 ${
+          isConfirmed
+            ? "border-[#39FF14]/15 bg-[#0a1a05]/40"
+            : "border-[#39FF14]/8 bg-black/20"
         }`}
       >
         <SummaryRow label="Items" value={
@@ -90,18 +92,21 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
         {requirements.special_requirements && (
           <SummaryRow label="Special" value={requirements.special_requirements} />
         )}
+        {requirements.additional_notes && (
+          <SummaryRow label="Notes" value={requirements.additional_notes} />
+        )}
       </div>
 
-      {/* Footer note */}
+      {/* Footer */}
       <p
-        className={`mt-3 text-xs border-t pt-3 ${
+        className={`mt-3 text-xs border-t pt-3 leading-relaxed ${
           isConfirmed
-            ? "text-[#00ff88]/60 border-[#00ff88]/15"
-            : "text-[#00cc6a]/60 border-[#00ff88]/10"
+            ? "text-[#39FF14]/50 border-[#39FF14]/10"
+            : "text-[#555] border-white/[0.04]"
         }`}
       >
         {isConfirmed
-          ? "Note: This is a requirements summary. No vehicle has been dispatched."
+          ? "Note: This is a requirements summary. No vehicle has been dispatched yet."
           : "Please confirm the details above or ask to change anything."}
       </p>
     </div>
@@ -111,10 +116,10 @@ export function BookingSummary({ requirements, status }: BookingSummaryProps) {
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-3 items-baseline">
-      <span className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider w-14 flex-shrink-0">
+      <span className="text-[9px] font-bold text-[#555] uppercase tracking-widest w-14 flex-shrink-0">
         {label}
       </span>
-      <span className="text-sm text-slate-300 flex-1">{value}</span>
+      <span className="text-sm text-[#D0D0D0] flex-1 leading-snug">{value}</span>
     </div>
   );
 }

@@ -46,6 +46,17 @@ export const AgentLLMResponseSchema = z.object({
   corrected_fields: z
     .array(z.string())
     .describe("Names of the fields that were corrected in this turn"),
+
+  cleared_fields: z
+    .array(z.string())
+    .default([])
+    .describe(
+      "Names of fields the user explicitly asked to remove or clear. " +
+      "Only populate this when the user INTENTIONALLY removes a value " +
+      "(e.g. 'remove the special requirement', 'forget the time'). " +
+      "Do NOT list fields that are simply missing from this response — " +
+      "only list fields the user explicitly asked to erase.",
+    ),
 });
 
 export type AgentLLMResponse = z.infer<typeof AgentLLMResponseSchema>;

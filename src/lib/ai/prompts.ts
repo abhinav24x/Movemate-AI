@@ -73,8 +73,15 @@ The full response JSON schema:
   "needs_clarification": false,
   "clarification_reason": null,
   "correction_detected": false,
-  "corrected_fields": []
+  "corrected_fields": [],
+  "cleared_fields": []
 }
+
+FIELD CLEARING RULE:
+If the user explicitly asks to REMOVE or FORGET a field (e.g. "remove the special requirement", "forget the time", "no additional notes"),
+add that field name to cleared_fields. Valid names: pickup, drop, items, vehicle_type, date, time, special_requirements, additional_notes.
+Do NOT add a field to cleared_fields just because it is missing from this response.
+Only add it when the user EXPLICITLY asks to erase it.
 
 EXAMPLE — if user says "move from Koramangala to Whitefield tomorrow at 6 PM":
 {
@@ -94,7 +101,8 @@ EXAMPLE — if user says "move from Koramangala to Whitefield tomorrow at 6 PM":
   "needs_clarification": false,
   "clarification_reason": null,
   "correction_detected": false,
-  "corrected_fields": []
+  "corrected_fields": [],
+  "cleared_fields": []
 }`;
 
 /** Build the full system prompt with dynamic context injected */

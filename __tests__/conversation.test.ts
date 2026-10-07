@@ -40,8 +40,9 @@ function makeLLMResponse(overrides: Partial<AgentLLMResponse> = {}): AgentLLMRes
     clarification_reason: null,
     correction_detected: false,
     corrected_fields: [],
+    cleared_fields: [],
     ...overrides,
-  };
+  } as AgentLLMResponse;
 }
 
 // ---------------------------------------------------------------------------

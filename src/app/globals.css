@@ -1,8 +1,16 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @theme {
   --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
+
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================
+   Primary: #39FF14 (electric neon green)
+   Surface: #0D0D0D / #121212
+   Text: #F5F5F5 (main) / #8A8A8A (muted)
+   ============================================================ */
 
 /* ============================================================
    BASE
@@ -15,28 +23,22 @@
 
 body {
   background-color: #050505;
+  color: #F5F5F5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================================
-   SLIM SCROLLBAR — neon green tint
+   SLIM SCROLLBAR
    ============================================================ */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 255, 136, 0.18) transparent;
+  scrollbar-color: rgba(57, 255, 20, 0.2) transparent;
 }
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 3px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+.scrollbar-thin::-webkit-scrollbar { width: 3px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 255, 136, 0.18);
+  background-color: rgba(57, 255, 20, 0.2);
   border-radius: 9999px;
 }
 
@@ -44,39 +46,39 @@ body {
    KEYFRAME ANIMATIONS
    ============================================================ */
 
-/* Mic pulse rings — recording state */
+/* Mic pulse rings — recording */
 @keyframes mic-ring-1 {
-  0%   { transform: scale(1);    opacity: 0.55; }
-  100% { transform: scale(1.6);  opacity: 0; }
+  0%   { transform: scale(1);    opacity: 0.6; }
+  100% { transform: scale(1.65); opacity: 0; }
 }
 @keyframes mic-ring-2 {
-  0%   { transform: scale(1);    opacity: 0.35; }
-  100% { transform: scale(1.95); opacity: 0; }
+  0%   { transform: scale(1);    opacity: 0.38; }
+  100% { transform: scale(2.1);  opacity: 0; }
 }
 @keyframes mic-ring-3 {
-  0%   { transform: scale(1);    opacity: 0.18; }
-  100% { transform: scale(2.35); opacity: 0; }
+  0%   { transform: scale(1);    opacity: 0.2; }
+  100% { transform: scale(2.55); opacity: 0; }
 }
 
-/* Speaking bars */
+/* Speaking waveform bars */
 @keyframes speak-bar {
-  0%, 100% { transform: scaleY(0.25); }
+  0%, 100% { transform: scaleY(0.2); }
   50%       { transform: scaleY(1); }
 }
 
 /* Thinking orbit dot */
 @keyframes orbit {
-  from { transform: rotate(0deg) translateX(20px) rotate(0deg); }
-  to   { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+  from { transform: rotate(0deg) translateX(22px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(22px) rotate(-360deg); }
 }
 
 /* Idle orb float */
 @keyframes float-idle {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-7px); }
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-8px) scale(1.02); }
 }
 
-/* Gradient shimmer for progress bar */
+/* Progress shimmer */
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
@@ -84,54 +86,56 @@ body {
 
 /* Message slide up */
 @keyframes message-in {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Panel fade in */
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Neon green glow — idle mic orb */
+/* Neon green glow — idle mic */
 @keyframes glow-pulse-green {
-  0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.4), 0 0 60px rgba(0, 255, 136, 0.12), 0 0 100px rgba(0, 255, 136, 0.05); }
-  50%       { box-shadow: 0 0 40px rgba(0, 255, 136, 0.65), 0 0 90px rgba(0, 255, 136, 0.22), 0 0 140px rgba(0, 255, 136, 0.08); }
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(57, 255, 20, 0.45),
+      0 0 60px rgba(57, 255, 20, 0.15),
+      0 0 120px rgba(57, 255, 20, 0.06);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(57, 255, 20, 0.7),
+      0 0 100px rgba(57, 255, 20, 0.25),
+      0 0 180px rgba(57, 255, 20, 0.1);
+  }
 }
 
 /* Red glow — recording */
 @keyframes glow-pulse-red {
-  0%, 100% { box-shadow: 0 0 24px rgba(239, 68, 68, 0.45), 0 0 60px rgba(239, 68, 68, 0.1); }
-  50%       { box-shadow: 0 0 50px rgba(239, 68, 68, 0.7),  0 0 90px rgba(239, 68, 68, 0.25); }
+  0%, 100% { box-shadow: 0 0 24px rgba(239, 68, 68, 0.5),  0 0 70px rgba(239, 68, 68, 0.12); }
+  50%       { box-shadow: 0 0 50px rgba(239, 68, 68, 0.75), 0 0 110px rgba(239, 68, 68, 0.28); }
 }
 
 /* Soft green glow — speaking */
 @keyframes glow-pulse-green-soft {
-  0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.25), 0 0 50px rgba(0, 255, 136, 0.08); }
-  50%       { box-shadow: 0 0 36px rgba(0, 255, 136, 0.45), 0 0 70px rgba(0, 255, 136, 0.15); }
+  0%, 100% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.28), 0 0 55px rgba(57, 255, 20, 0.1); }
+  50%       { box-shadow: 0 0 38px rgba(57, 255, 20, 0.48), 0 0 80px rgba(57, 255, 20, 0.18); }
 }
 
-/* Neon border scan line effect */
-@keyframes scan-line {
-  0%   { transform: translateY(-100%); opacity: 0; }
-  10%  { opacity: 0.6; }
-  90%  { opacity: 0.6; }
-  100% { transform: translateY(100%); opacity: 0; }
+/* Subtle card hover lift */
+@keyframes card-rise {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-2px); }
 }
 
 /* ============================================================
    ANIMATION UTILITY CLASSES
    ============================================================ */
-.animate-mic-ring-1 {
-  animation: mic-ring-1 1.9s ease-out infinite;
-}
-.animate-mic-ring-2 {
-  animation: mic-ring-2 1.9s ease-out 0.28s infinite;
-}
-.animate-mic-ring-3 {
-  animation: mic-ring-3 1.9s ease-out 0.56s infinite;
-}
+.animate-mic-ring-1 { animation: mic-ring-1 1.9s ease-out infinite; }
+.animate-mic-ring-2 { animation: mic-ring-2 1.9s ease-out 0.28s infinite; }
+.animate-mic-ring-3 { animation: mic-ring-3 1.9s ease-out 0.56s infinite; }
 
 .animate-speak-bar   { animation: speak-bar 0.85s ease-in-out infinite; }
 .animate-speak-bar-2 { animation: speak-bar 0.85s ease-in-out 0.14s infinite; }
@@ -140,20 +144,104 @@ body {
 .animate-speak-bar-5 { animation: speak-bar 0.85s ease-in-out 0.42s infinite; }
 
 .animate-orbit       { animation: orbit 2s linear infinite; }
-.animate-float-idle  { animation: float-idle 3.8s ease-in-out infinite; }
+.animate-float-idle  { animation: float-idle 4s ease-in-out infinite; }
 .animate-message-in  { animation: message-in 0.32s ease-out forwards; }
-.animate-fade-in     { animation: fade-in 0.4s ease-out forwards; }
+.animate-fade-in     { animation: fade-in 0.45s ease-out forwards; }
 
-.animate-glow-green      { animation: glow-pulse-green      2.8s ease-in-out infinite; }
+.animate-glow-green      { animation: glow-pulse-green      3s ease-in-out infinite; }
 .animate-glow-red        { animation: glow-pulse-red        2.2s ease-in-out infinite; }
-.animate-glow-green-soft { animation: glow-pulse-green-soft 2.5s ease-in-out infinite; }
+.animate-glow-green-soft { animation: glow-pulse-green-soft 2.6s ease-in-out infinite; }
 
-/* Neon green shimmer progress bar */
+/* Progress bar */
 .progress-bar-shimmer {
-  background: linear-gradient(90deg, #00ff88 0%, #00cc6a 40%, #00ff88 70%, #00e07a 100%);
+  background: linear-gradient(90deg, #39FF14 0%, #2dd40f 40%, #39FF14 70%, #50ff30 100%);
   background-size: 200% 100%;
   animation: shimmer 2.8s linear infinite;
   transition: width 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   NEON CARD / PANEL
+   ============================================================ */
+.neon-card {
+  border: 1px solid rgba(57, 255, 20, 0.16);
+  background-color: #0D0D0D;
+  box-shadow:
+    0 0 0 1px rgba(57, 255, 20, 0.05),
+    0 0 24px rgba(57, 255, 20, 0.07),
+    0 0 80px rgba(57, 255, 20, 0.03),
+    inset 0 0 40px rgba(57, 255, 20, 0.02);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.neon-card:hover {
+  border-color: rgba(57, 255, 20, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(57, 255, 20, 0.1),
+    0 0 32px rgba(57, 255, 20, 0.12),
+    0 0 100px rgba(57, 255, 20, 0.05),
+    inset 0 0 40px rgba(57, 255, 20, 0.03);
+}
+
+/* Input field with neon focus */
+.neon-input {
+  border: 1px solid rgba(57, 255, 20, 0.18);
+  background-color: #0a0a0a;
+  color: #F5F5F5;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.neon-input::placeholder {
+  color: #4a4a4a;
+}
+
+.neon-input:focus {
+  border-color: rgba(57, 255, 20, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(57, 255, 20, 0.2),
+    0 0 18px rgba(57, 255, 20, 0.15),
+    inset 0 0 14px rgba(57, 255, 20, 0.05);
+  outline: none;
+}
+
+.neon-input:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Header separator */
+.neon-header-bar {
+  border-bottom: 1px solid rgba(57, 255, 20, 0.1);
+  box-shadow: 0 2px 24px rgba(57, 255, 20, 0.06);
+  padding-bottom: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Primary neon button */
+.neon-btn-primary {
+  background-color: #39FF14;
+  color: #050505;
+  font-weight: 700;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+}
+
+.neon-btn-primary:hover:not(:disabled) {
+  background-color: #50ff30;
+  box-shadow: 0 0 32px rgba(57, 255, 20, 0.6);
+  transform: translateY(-1px);
+}
+
+.neon-btn-primary:active:not(:disabled) {
+  background-color: #2dd40f;
+  transform: translateY(0);
+  box-shadow: 0 0 14px rgba(57, 255, 20, 0.3);
+}
+
+.neon-btn-primary:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* ============================================================
@@ -167,45 +255,4 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.15ms !important;
   }
-}
-/* ============================================================
-   NEON CARD / PANEL GLOW UTILITIES
-   ============================================================ */
-
-.neon-card {
-  border: 1px solid rgba(0, 255, 136, 0.18);
-  box-shadow:
-    0 0 0 1px rgba(0, 255, 136, 0.06),
-    0 0 20px rgba(0, 255, 136, 0.07),
-    0 0 60px rgba(0, 255, 136, 0.03),
-    inset 0 0 30px rgba(0, 255, 136, 0.02);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.neon-card:hover {
-  border-color: rgba(0, 255, 136, 0.32);
-  box-shadow:
-    0 0 0 1px rgba(0, 255, 136, 0.12),
-    0 0 30px rgba(0, 255, 136, 0.12),
-    0 0 80px rgba(0, 255, 136, 0.05),
-    inset 0 0 30px rgba(0, 255, 136, 0.03);
-}
-
-.neon-input {
-  border: 1px solid rgba(0, 255, 136, 0.2);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.neon-input:focus {
-  border-color: rgba(0, 255, 136, 0.5) !important;
-  box-shadow:
-    0 0 0 1px rgba(0, 255, 136, 0.18),
-    0 0 16px rgba(0, 255, 136, 0.14),
-    inset 0 0 12px rgba(0, 255, 136, 0.05);
-  outline: none;
-}
-
-.neon-header-bar {
-  border-bottom: 1px solid rgba(0, 255, 136, 0.12);
-  box-shadow: 0 2px 20px rgba(0, 255, 136, 0.06);
 }

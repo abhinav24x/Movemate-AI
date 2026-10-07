@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { transcribeAudio } from "@/lib/voice/stt";
+import { checkRateLimit, getRateLimitKey, rateLimitedResponse } from "@/lib/rate-limit";
 
 const MAX_AUDIO_BYTES = 25 * 1024 * 1024; // 25 MB
 
+// 20 requests per 60 seconds per IP (transcription is expensive)
+const LIMIT = 20;
+const WINDOW_MS = 60_000;
+
 export async function POST(req: NextRequest) {
+  // Rate limiting
+  const key = getRateLimitKey(req, "transcribe");
+  if (!checkRateLimit(key, LIMIT, WINDOW_MS)) {
+    return rateLimitedResponse();
+  }
+
   try {
     const contentType = req.headers.get("content-type") ?? "";
     if (!contentType.includes("multipart/form-data") && !contentType.includes("audio/")) {
@@ -60,8 +71,10 @@ export async function POST(req: NextRequest) {
       language: result.language,
     });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Transcription failed";
     console.error("[/api/transcribe]", err);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(
+      { error: "Voice transcription failed. Please try again." },
+      { status: 500 },
+    );
   }
 }
