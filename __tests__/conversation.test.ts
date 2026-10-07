@@ -26,6 +26,7 @@ import {
   type AgentLLMResponse,
   type ConversationState,
 } from "../src/lib/schemas/agent-response";
+import { mergeRequirements } from "../src/lib/conversation/agent";
 
 // ---------------------------------------------------------------------------
 // Helper: make a minimal valid AgentLLMResponse
@@ -248,29 +249,9 @@ describe("AgentLLMResponseSchema", () => {
 });
 
 // ---------------------------------------------------------------------------
-// 6. State update semantics (merge logic simulation)
+// 6. State update semantics (production merge logic)
 // ---------------------------------------------------------------------------
 describe("State update merge logic", () => {
-  /**
-   * Simulates the mergeRequirements logic from agent.ts
-   * to validate the business rules without calling Groq.
-   */
-  function mergeRequirements(
-    current: BookingRequirements,
-    updated: BookingRequirements,
-  ): BookingRequirements {
-    return {
-      pickup: updated.pickup ?? current.pickup,
-      drop: updated.drop ?? current.drop,
-      items: updated.items.length > 0 ? updated.items : current.items,
-      vehicle_type: updated.vehicle_type ?? current.vehicle_type,
-      date: updated.date ?? current.date,
-      time: updated.time ?? current.time,
-      special_requirements: updated.special_requirements ?? current.special_requirements,
-      additional_notes: updated.additional_notes ?? current.additional_notes,
-    };
-  }
-
   test("TC1: Initial extraction from one message", () => {
     const initial = emptyRequirements();
     const update: BookingRequirements = {
@@ -371,11 +352,63 @@ describe("State update merge logic", () => {
       ...emptyRequirements(),
       date: "tomorrow",
       time: "18:00",
+      special_requirements: "Need packing service",
     };
     const update = emptyRequirements(); // nulls everywhere
     const merged = mergeRequirements(current, update);
     expect(merged.date).toBe("tomorrow");
     expect(merged.time).toBe("18:00");
+    expect(merged.special_requirements).toBe("Need packing service");
+  });
+
+  test("explicitly clears a special requirement", () => {
+    const current = { ...emptyRequirements(), special_requirements: "Need packing service" };
+    const merged = mergeRequirements(current, emptyRequirements(), ["special_requirements"]);
+    expect(merged.special_requirements).toBeNull();
+  });
+
+  test("clears pickup while preserving drop", () => {
+    const current: BookingRequirements = {
+      ...emptyRequirements(),
+      pickup: { address: null, landmark: null, area: "Kochi", city: null },
+      drop: { address: null, landmark: null, area: "Bangalore", city: null },
+    };
+    const merged = mergeRequirements(current, emptyRequirements(), ["pickup"]);
+    expect(merged.pickup).toBeNull();
+    expect(merged.drop?.area).toBe("Bangalore");
+  });
+
+  test("clears multiple fields in one update", () => {
+    const current: BookingRequirements = {
+      ...emptyRequirements(),
+      special_requirements: "Need packing service",
+      additional_notes: "Call before arrival",
+    };
+    const merged = mergeRequirements(current, current, [
+      "special_requirements",
+      "additional_notes",
+    ]);
+    expect(merged.special_requirements).toBeNull();
+    expect(merged.additional_notes).toBeNull();
+  });
+
+  test("clearing items produces an empty array", () => {
+    const current: BookingRequirements = {
+      ...emptyRequirements(),
+      items: [{ name: "sofa", quantity: 1, notes: null }],
+    };
+    const merged = mergeRequirements(current, current, ["items"]);
+    expect(merged.items).toEqual([]);
+  });
+
+  test("ignores unsupported clear field names", () => {
+    const current: BookingRequirements = {
+      ...emptyRequirements(),
+      special_requirements: "Need packing service",
+      additional_notes: "Call before arrival",
+    };
+    const merged = mergeRequirements(current, emptyRequirements(), ["pickup_location", "status"]);
+    expect(merged).toEqual(current);
   });
 
   test("TC7: Destination correction only", () => {
