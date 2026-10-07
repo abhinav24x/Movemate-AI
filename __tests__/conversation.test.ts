@@ -300,7 +300,7 @@ describe("State update merge logic", () => {
       ...current,
       time: "19:00",
     };
-    const merged = mergeRequirements(current, update);
+    const merged = mergeRequirements(current, update, []);
     expect(merged.time).toBe("19:00");
     expect(merged.pickup?.area).toBe("Koramangala"); // unchanged
     expect(merged.drop?.area).toBe("Whitefield");   // unchanged
@@ -355,7 +355,7 @@ describe("State update merge logic", () => {
       special_requirements: "Need packing service",
     };
     const update = emptyRequirements(); // nulls everywhere
-    const merged = mergeRequirements(current, update);
+    const merged = mergeRequirements(current, update, []);
     expect(merged.date).toBe("tomorrow");
     expect(merged.time).toBe("18:00");
     expect(merged.special_requirements).toBe("Need packing service");
@@ -363,19 +363,31 @@ describe("State update merge logic", () => {
 
   test("explicitly clears a special requirement", () => {
     const current = { ...emptyRequirements(), special_requirements: "Need packing service" };
-    const merged = mergeRequirements(current, emptyRequirements(), ["special_requirements"]);
+    const merged = mergeRequirements(current, current, ["special_requirements"]);
     expect(merged.special_requirements).toBeNull();
   });
 
-  test("clears pickup while preserving drop", () => {
+  test("explicitly clears time", () => {
+    const current = { ...emptyRequirements(), time: "18:00" };
+    const merged = mergeRequirements(current, current, ["time"]);
+    expect(merged.time).toBeNull();
+  });
+
+  test("clears pickup while preserving all other requirements", () => {
     const current: BookingRequirements = {
       ...emptyRequirements(),
       pickup: { address: null, landmark: null, area: "Kochi", city: null },
       drop: { address: null, landmark: null, area: "Bangalore", city: null },
+      date: "2026-10-15",
+      time: "18:00",
+      items: [{ name: "sofa", quantity: 1, notes: null }],
     };
     const merged = mergeRequirements(current, emptyRequirements(), ["pickup"]);
     expect(merged.pickup).toBeNull();
     expect(merged.drop?.area).toBe("Bangalore");
+    expect(merged.date).toBe("2026-10-15");
+    expect(merged.time).toBe("18:00");
+    expect(merged.items).toEqual([{ name: "sofa", quantity: 1, notes: null }]);
   });
 
   test("clears multiple fields in one update", () => {
